@@ -130,7 +130,7 @@ const Login = () => {
 
         </form>
       </div>
-      <div className=" md:rounded-tr-md md:rounded-br-md bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center  " style={{ backgroundImage: "lp.png" }}>
+      <div className=" md:rounded-tr-md md:rounded-br-md bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center  " style={{ backgroundImage: "url(lp.png)" }}>
         <p className="text-white font-bold text-xl sm:text-3xl md:text-4xl  text-center ">Sign in to <br /> post essays for <br /> free</p>
 
       </div>
