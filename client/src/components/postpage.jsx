@@ -10,8 +10,8 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const postsResponse = await fetch('http://localhost:3000/post/allposts');
-        const usersResponse = await fetch('http://localhost:3000/post/allusers');
+        const postsResponse = await fetch('https://essaypedia.onrender.com/post/allposts');
+        const usersResponse = await fetch('https://essaypedia.onrender.com/post/allusers');
 
         if (!postsResponse.ok || !usersResponse.ok) {
           throw new Error('Failed to fetch data');
