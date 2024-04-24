@@ -83,7 +83,7 @@ const Register = () => {
 
   return (
     <div className="flex pt-11 flex-col md:flex-row  justify-center items-center min-h-[90vh] bg-slate-100">
-      <div className=" md:rounded-tl-md md:rounded-bl-md  bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: "url('/src/assets/lp.png')" }}>
+      <div className=" md:rounded-tl-md md:rounded-bl-md  bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: "lp.png" }}>
         <p className="text-white font-bold text-xl sm:text-3xl md:text-4xl  text-center ">Sign up to <br /> post essays for <br /> free</p>
 
       </div>
