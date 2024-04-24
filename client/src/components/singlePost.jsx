@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Loader from './loader';
 
 const SinglePost = () => {
   const [post, setPost] = useState(null);
@@ -33,7 +34,7 @@ const SinglePost = () => {
   }, [postId]);
 
   if (!post || !user) {
-    return <div>Loading...</div>;
+    return <div className='h-[100vh]'><Loader /></div>;
   }
 
   const datePost = (dateString) => {
