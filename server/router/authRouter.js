@@ -11,7 +11,7 @@ import cookieParser from 'cookie-parser';
 const router = express.Router()
 
 
-router.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+router.use(cors({ credentials: true, origin: 'https://essaypedia-1.onrender.com/' }));
 router.use(bodyParser.json())
 
 router.use(cookieParser())
