@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components{
+    .input{
+        @apply bg-slate-100  rounded-full h-7 px-4;
+    }
+}
