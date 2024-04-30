@@ -74,7 +74,7 @@ router.post('/login', async (req, res) => {
     if (match) {
       tok.sign({id: loginUser._id, name: loginUser.name , email: loginUser.email,  username: loginUser.username }, process.env.tok_secret, {} , (err, token)=>{
         if (err) throw err;
-        res.cookie('token', token, { httpOnly: true, sameSite: 'none', secure: true }).json(loginUser);
+        res.cookie('token', token).json(loginUser);
 
           
         
@@ -133,6 +133,7 @@ router.post('/logout', async (req, res) => {
     res.status(500).json({ error: 'Logout failed', details: error.message });
   }
 });
+
 
 
   export default router;
