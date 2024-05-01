@@ -7,13 +7,15 @@ const Post = () => {
     const [newPost, setNewPost] = useState({
         userId: user ? user._id : '',
         title: '',
-        uni:'',
-        link:'',
+        uni: '',
+        link: '',
+        category: '',
         content: ''
     });
 
     const handleChange = (e) => {
         setNewPost({ ...newPost, [e.target.name]: e.target.value });
+
     };
 
     const createPost = async (e) => {
@@ -24,21 +26,23 @@ const Post = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newPost)
             });
-            const data = await res.json();
-            console.log(data);
+            /*const data = */await res.json();
+            ///console.log(data);
             setNewPost({
                 userId: user ? user._id : '',
                 title: '',
-                uni:'',
-                link:'',
+                uni: '',
+                link: '',
+                category: '',
                 content: ''
             })
             toast.success(" Posted SuccesFully")
         } catch (error) {
             console.error(error);
+         //   console.log(newPost)
         }
     };
-    
+
 
     useEffect(() => {
         // If user is not available or userId is null, do nothing
@@ -60,46 +64,61 @@ const Post = () => {
                         <form className="flex flex-col justify-center items-start gap-4" onSubmit={createPost}>
                             <input type="hidden" name="userId" value={newPost.userId ?? ''} />
                             <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-sm">
-                            <input
-                                onChange={handleChange}
-                                className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
-                                placeholder="Add Title"
-                                type="text"
-                                name="title"
-                                id="title"
-                                value={newPost.title}
-                            /></div>
-                               <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-sm">
-                            <input
-                                onChange={handleChange}
-                                className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
-                                placeholder="University's Name"
-                                type="text"
-                                name="uni"
-                                id="uni"
-                                value={newPost.uni}
-                            /></div>
-                              <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-sm">
-                            <input
-                                onChange={handleChange}
-                                className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
-                                placeholder="Reference Link"
-                                type="text"
-                                name="link"
-                                id="link"
-                                value={newPost.link}
-                            /></div>
+                                <input
+                                    onChange={handleChange}
+                                    className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
+                                    placeholder="Add Title"
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    value={newPost.title}
+                                    required
+                                /></div>
                             <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-sm">
-                            <textarea
-                                onChange={handleChange}
-                                className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
-                                placeholder="Content"
-                                type="text"
-                                name="content"
-                                id="content"
-                                rows={7}
-                                value={newPost.content}
-                            /></div>
+                                <input
+                                    onChange={handleChange}
+                                    className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
+                                    placeholder="University's Name"
+                                    type="text"
+                                    name="uni"
+                                    id="uni"
+                                    value={newPost.uni}
+
+                                /></div>
+                            <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-sm">
+                                <input
+                                    onChange={handleChange}
+                                    className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
+                                    placeholder="Reference Link"
+                                    type="text"
+                                    name="link"
+                                    id="link"
+                                    value={newPost.link}
+
+                                /></div>
+                            <div className="bg-slate-200  w-full flex justify-center items-center py-2 px-4 rounded-sm">
+                                <select className="flex w-full bg-slate-200 outline-none " value={newPost.category} onChange={handleChange} name="category" required>
+                                    <option value="theology/humanuties">Theology/Humanuties</option>
+                                    <option value="socialscience/law">Socialscience/Law</option>
+                                    <option value="biology/geology">Biology/Geology</option>
+                                    <option value="physices/chemistry/math">Physices/Chemistry/Math</option>
+                                    <option value="fineart">Fineart</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="medicine">Medicine</option>
+                                    <option value="agriculture/veterinary/forestry">Agriculture/Veterinary/Forestry</option>
+                                </select></div>
+                            <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-sm">
+                                <textarea
+                                    onChange={handleChange}
+                                    className="bg-slate-200 w-full text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
+                                    placeholder="Content"
+                                    type="text"
+                                    name="content"
+                                    id="content"
+                                    rows={7}
+                                    value={newPost.content}
+                                    required
+                                /></div>
                             <button type="submit" className="bg-yellow-500 w-full h-9 rounded-lg text-white font-semibold hover:bg-red-900 mt-3">Post</button>
                         </form>
                     </>

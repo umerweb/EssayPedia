@@ -5,6 +5,7 @@ import Loader from './loader'; // Import your loader component
 const PostList = () => {
   const [postsWithUsers, setPostsWithUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [isLoading, setIsLoading] = useState(true); // State to track loading status
 
   useEffect(() => {
@@ -46,6 +47,7 @@ const PostList = () => {
     }
     return text;
   };
+
   const datePost = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -56,7 +58,8 @@ const PostList = () => {
   };
 
   const filteredPosts = postsWithUsers.filter(post =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    (post.title.toLowerCase().includes(searchQuery.toLowerCase()) || post.content.toLowerCase().includes(searchQuery.toLowerCase())) &&
+    (selectedCategory === 'all' || post.category.toLowerCase() === selectedCategory.toLowerCase())
   );
 
   return (
@@ -67,7 +70,24 @@ const PostList = () => {
         <div className='container mx-auto py-10 px-4 md:px-8'>
           <div className='flex justify-between items-center'>
             <h1 className='font-bold text-lg md:text-2xl py-4'>All Posts</h1>
-            <div className='bg-white border flex items-center border-gray-300 px-2 py-1 md:px-4 rounded-md'>
+            <div className='flex '>
+              
+            <select
+              className='bg-white border border-gray-300 rounded-md px-2 py-1'
+              value={selectedCategory}
+              onChange={e => setSelectedCategory(e.target.value)}
+            >
+              <option value="all">All</option>
+              <option value="theology/humanuties">Theology/Humanuties</option>
+              <option value="socialscience/law">Socialscience/Law</option>
+              <option value="biology/geology">Biology/Geology</option>
+              <option value="physices/chemistry/math">Physices/Chemistry/Math</option>
+              <option value="fineart">Fineart</option>
+              <option value="technology">Technology</option>
+              <option value="medicine">Medicine</option>
+              <option value="agriculture/veterinary/forestry">Agriculture/Veterinary/Forestry</option>
+            </select>
+              <div className='bg-white border flex items-center border-gray-300 px-2 py-1 md:px-4 rounded-md'>
               <input
                 type="text"
                 placeholder="Search posts"
@@ -76,6 +96,7 @@ const PostList = () => {
                 onChange={e => setSearchQuery(e.target.value)}
               />
               <img src="search.png" className="w-5 h-5 ml-2" alt="Search Icon" />
+              </div>
             </div>
           </div>
           <div className='flex flex-col justify-center items-start'>
@@ -90,6 +111,7 @@ const PostList = () => {
                   <p className='italic text-gray-700 text-md font-semibold'>{post.uni}</p>
                   <p className='font2'><b>Abstract: </b>{limitWords(post.content, 100)}</p>
                   <p><b>Author:</b> {post.username}</p>
+                  <p><b>Category:</b> {post.category}</p>
                   <Link to={`/posts/${post._id}`} className='text-blue-600 hover:underline'>Read More</Link>
                 </div>
               </div>

@@ -21,19 +21,19 @@ router.get('/',  (req, res) => {
   
     res.send("hello world i am post endpoint")
   })
-
-router.post('/', async(req, res)=>{
-    const { userId, title, uni,link,  content} = req.body;
+  router.post('/', async(req, res)=>{
+    const { userId, title, uni, link, category, content} = req.body;
     const newPost = await postSchema.create({
         userId,
         title,
         uni,
         link,
+        category,
         content
     })
     res.json({ success: true, post: newPost });
 
-})  
+}) 
 router.get('/allposts', async (req, res) => {
     try {
       // Fetch all posts from the database
