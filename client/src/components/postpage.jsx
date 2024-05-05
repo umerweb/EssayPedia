@@ -6,7 +6,9 @@ const PostList = () => {
   const [postsWithUsers, setPostsWithUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [isLoading, setIsLoading] = useState(true); // State to track loading status
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5); // Number of posts to display per page
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,19 +28,19 @@ const PostList = () => {
           const user = usersData.find(user => user._id === post.userId);
           return {
             ...post,
-            username: user ? user.username : 'Unknown', // Assuming 'username' is the property in user data
+            username: user ? user.username : 'Unknown',
           };
         });
 
         setPostsWithUsers(postsWithUsersData);
-        setIsLoading(false); // Set loading to false after fetching data
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchPosts();
-  }, []); // Empty dependency array ensures useEffect runs only once
+  }, []);
 
   const limitWords = (text, limit) => {
     const words = text.split(' ');
@@ -62,51 +64,60 @@ const PostList = () => {
     (selectedCategory === 'all' || post.category.toLowerCase() === selectedCategory.toLowerCase())
   );
 
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className='bg-gray-100 min-h-screen'>
-      {isLoading ? ( // Check if loading, display loader if true
+      {isLoading ? (
         <Loader />
       ) : (
         <div className='container mx-auto py-10 px-4 md:px-8'>
           <div className='flex justify-between items-center'>
-            <h1 className='font-bold text-lg md:text-2xl py-4'>All Posts</h1>
+            <h1 className='font-bold text-lg md:text-xl py-4'>{searchQuery == '' ? (<>All Posts</>):(<><h2>Showing Results for "{searchQuery}"</h2></>)}</h1>
             <div className='flex gap-2 '>
-              
-            <select
-              className='bg-white border border-gray-300 rounded-md px-2 py-1'
-              value={selectedCategory}
-              onChange={e => setSelectedCategory(e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="theology/humanuties">Theology/Humanuties</option>
-              <option value="socialscience/law">Socialscience/Law</option>
-              <option value="biology/geology">Biology/Geology</option>
-              <option value="physices/chemistry/math">Physices/Chemistry/Math</option>
-              <option value="fineart">Fineart</option>
-              <option value="technology">Technology</option>
-              <option value="medicine">Medicine</option>
-              <option value="agriculture/veterinary/forestry">Agriculture/Veterinary/Forestry</option>
-            </select>
+              <select
+                className='bg-white border border-gray-300 rounded-md px-2 py-1'
+                value={selectedCategory}
+                onChange={e => setSelectedCategory(e.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="theology/humanuties">Theology/Humanuties</option>
+                <option value="socialscience/law">Socialscience/Law</option>
+                <option value="biology/geology">Biology/Geology</option>
+                <option value="physices/chemistry/math">Physices/Chemistry/Math</option>
+                <option value="fineart">Fineart</option>
+                <option value="technology">Technology</option>
+                <option value="medicine">Medicine</option>
+                <option value="agriculture/veterinary/forestry">Agriculture/Veterinary/Forestry</option>
+              </select>
               <div className='bg-white border flex items-center border-gray-300 px-2 py-1 md:px-4 rounded-md'>
-              <input
-                type="text"
-                placeholder="Search posts"
-                className="bg-transparent outline-none border-none w-24 md:w-48"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-              />
-              <img src="search.png" className="w-5 h-5 ml-2" alt="Search Icon" />
+                <input
+                  type="text"
+                  placeholder="Search posts"
+                  className="bg-transparent outline-none border-none w-24 md:w-48"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+                <img src="search.png" className="w-5 h-5 ml-2" alt="Search Icon" />
               </div>
             </div>
           </div>
           <div className='flex flex-col justify-center items-start'>
-            {filteredPosts.length === 0 && searchQuery && ( // Check if there are no search results and search query is not empty
+            
+            
+            {filteredPosts.length === 0 && searchQuery && (
               <div className='min-h-[70vh] font2'>No results found for <b>{searchQuery}</b></div>
             )}
-            {filteredPosts.map(post => (
+            {currentPosts.map(post => (
               <div className='md:w-full' key={post._id}>
-                <div className='bg-gray-200 my-4 md:p-4 p-2 flex flex-col justify-between rounded-md shadow-md' >
-                  <Link to={`/posts/${post._id}`}><h2 className='font-bold text-lg md:text-xl hover:underline hover:text-blue-600'>{post.title}</h2></Link>
+                <div className='bg-gray-200 my-4 md:p-4 p-2 flex flex-col justify-between rounded-md shadow-md'>
+                  <Link to={`/posts/${post._id}`}>
+                    <h2 className='font-bold text-lg md:text-xl hover:underline hover:text-blue-600'>{post.title}</h2>
+                  </Link>
                   <p>{datePost(post.createdAt)}</p>
                   <p className='italic text-gray-700 text-md font-semibold'>{post.uni}</p>
                   <p className='font2'><b>Abstract: </b>{limitWords(post.content, 100)}</p>
@@ -115,6 +126,18 @@ const PostList = () => {
                   <Link to={`/posts/${post._id}`} className='text-blue-600 hover:underline'>Read More</Link>
                 </div>
               </div>
+            ))}
+          </div>
+          {/* Pagination Buttons */}
+          <div className='flex justify-center my-4'>
+            {Array.from({ length: Math.ceil(filteredPosts.length / postsPerPage) }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => paginate(i + 1)}
+                className={`mx-1 px-3 py-1 rounded-md ${currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+              >
+                {i + 1}
+              </button>
             ))}
           </div>
         </div>

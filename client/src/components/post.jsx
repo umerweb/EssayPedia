@@ -1,6 +1,7 @@
 import { UserContext } from "../../context/userContext";
 import { useContext, useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Post = () => {
     const { user } = useContext(UserContext);

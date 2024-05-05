@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Addpost from './post'
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Account = () => {
