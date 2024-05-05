@@ -5,7 +5,7 @@ const loader = () => {
     return (
         <div className="min-h-[100vh] justify-center items-center flex">
             
-
+          <h1>Loading</h1>
 
             <l-waveform
                 size="35"
