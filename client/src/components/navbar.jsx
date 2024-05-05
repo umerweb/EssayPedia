@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className='bg-slate-800 sticky top-0 w-full flex  min-h-14 items-center justify-between px-4 md:px-20'>
+    <div className='bg-slate-800 sticky z-50 top-0 w-full flex  min-h-14 items-center justify-between px-4 md:px-20'>
         <div className='font flex justify-center items-center font-bold text-white text-xl'> 
             <Link to="/">EssayPedia</Link>
         </div>

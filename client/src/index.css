@@ -8,3 +8,32 @@
         @apply bg-slate-100  rounded-full h-7 px-4;
     }
 }
+
+
+
+@keyframes slideFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  @keyframes slideFromRight {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  .animate-slide-from-left {
+    animation: slideFromLeft 0.5s ease forwards;
+  }
+  
+  .animate-slide-from-right {
+    animation: slideFromRight 0.5s ease forwards;
+  }
+  

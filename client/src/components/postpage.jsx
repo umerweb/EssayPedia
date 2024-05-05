@@ -70,7 +70,7 @@ const PostList = () => {
         <div className='container mx-auto py-10 px-4 md:px-8'>
           <div className='flex justify-between items-center'>
             <h1 className='font-bold text-lg md:text-2xl py-4'>All Posts</h1>
-            <div className='flex '>
+            <div className='flex gap-2 '>
               
             <select
               className='bg-white border border-gray-300 rounded-md px-2 py-1'
