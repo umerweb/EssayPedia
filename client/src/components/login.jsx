@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import toast from "react-hot-toast";
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
@@ -24,10 +25,14 @@ const Login = () => {
       //console.log(data ,"i am login api")
 
       if (data.error) {
-        toast.error(data.error)
+        toast.error(data.error,{
+          theme:"dark"
+        })
 
       } else {
-        toast.success("Logged in SuccesFully")
+        toast.success("Logged in SuccesFully",{
+          theme: "dark"
+        })
         setlogform({
           email: '',
 

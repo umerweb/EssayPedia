@@ -1,6 +1,7 @@
 
 import { Routes, Route } from "react-router-dom";
-import { Toaster } from 'react-hot-toast'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { UserContextProvider } from "../context/userContext";
 import Navbar from './components/navbar';
 import Login from './components/login';
@@ -21,7 +22,7 @@ function App() {
     <UserContextProvider>
       <Navbar />
 
-      <Toaster position="top-right" />
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<PostPage />} />
         <Route path='/login' element={<Login />} />

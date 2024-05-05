@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
     // Check if user exists
     const loginUser = await userSchema.findOne({ email });
     if (!loginUser) {
-      return res.json({ error: "User with this Email Does not Exist" });
+      return res.json({ error: "Email Does not Exist" });
     }
 
     // Compare passwords

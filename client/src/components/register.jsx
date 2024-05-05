@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { toast } from 'react-hot-toast';
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
@@ -37,7 +38,9 @@ const Register = () => {
       let data = await res.json()
 
       if (data.error) {
-        toast.error(data.error)
+        toast.error(data.error,{
+          theme:"dark"
+        })
 
       } else {
         setregform({
@@ -46,7 +49,9 @@ const Register = () => {
           email: '',
           password: ''
         })
-        toast.success('Registration Succesful! Login Here')
+        toast.success('Registration Succesful! Login Here',{
+          theme:"dark"
+        })
         navigate('/login')
       }
 
