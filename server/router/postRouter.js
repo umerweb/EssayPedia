@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import postSchema from '../schema/postSchema.js'
 import userSchema from '../schema/registerSchema.js'
+import catSchema from '../schema/catSchema.js'
 
 
 
@@ -23,12 +24,13 @@ router.get('/',  (req, res) => {
   })
 
 router.post('/', async(req, res)=>{
-    const { userId, title, uni,link,  content} = req.body;
+    const { userId, title, uni, link, category, content} = req.body;
     const newPost = await postSchema.create({
         userId,
         title,
         uni,
         link,
+        category,
         content
     })
     res.json({ success: true, post: newPost });
@@ -109,6 +111,43 @@ router.get('/allposts', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.post('/cat', async (req, res) => {
+  const {cat } = req.body;
+  try {
+    const newCat = await catSchema.create({ cat });
+    res.json({ success: true, category: newCat });
+} catch (error) {
+    console.error('Error creating category:', error);
+    res.status(500).json({ error: 'Failed to create category', details: error.message });
+}
+
+});
+
+router.get('/api/cats', async (req, res) => {
+  try {
+    const cats = await catSchema.find();
+    res.json(cats);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch categories' });
+  }
+});
+
+
+router.get('/api/latest', async (req, res) => {
+  try {
+    // Query the database to fetch ten latest posts sorted by createdAt in descending order
+    const posts = await postSchema.find()
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (latest first)
+      .limit(10); // Limit to 10 documents
+
+    res.json(posts); // Send the fetched posts as JSON response
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 
 
 export default router;

@@ -10,9 +10,9 @@ const Posts = new mongoose.Schema({
     "createdAt": {
         type: Date,
         default: Date.now // Automatically set the current date and time when a new post is created
-      }
+      },
     
-    
+      "category": String
 });
 
 

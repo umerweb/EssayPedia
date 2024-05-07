@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import toast from "react-hot-toast";
+
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -21,13 +23,33 @@ const Login = () => {
     try {
       let res = await fetch("http://localhost:3000/login/", { method: "POST", credentials: 'include', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...logform }) })
       let data = await res.json();
-      //console.log(data ,"i am login api")
+      console.log(data ,"i am login api")
 
       if (data.error) {
-        toast.error(data.error)
+        toast.error(data.error, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+
+        })
 
       } else {
-        toast.success("Logged in SuccesFully")
+        toast.success('SuccesFully Logged in', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+    
+        });
         setlogform({
           email: '',
 
@@ -39,6 +61,7 @@ const Login = () => {
 
     } catch (error) {
       console.log("Login not Successfull", error)
+      
 
     }
 
@@ -90,7 +113,7 @@ const Login = () => {
     <div className="flex pt-11 flex-col-reverse md:flex-row  justify-center items-center min-h-[90vh] bg-slate-100">
 
 
-      <div className="flex flex-col min-w-[90vw] md:min-w-[40vw] justify-center min-h-[75vh] md:rounded-tl-md md:rounded-bl-md bg-white  items-center mb-8 md:mb-0">
+      <div className="right-container animate-slide-from-right flex flex-col min-w-[90vw] md:min-w-[40vw] justify-center min-h-[75vh] md:rounded-tl-md md:rounded-bl-md bg-white  items-center mb-8 md:mb-0">
         <h2 className="font font-bold text-3xl mb-4">Login</h2>
         <form className="flex flex-col justify-center gap-4 items-start" onSubmit={handlelogin}>
 
@@ -125,12 +148,12 @@ const Login = () => {
           </div>
 
           <button className="bg-yellow-500 w-[100%] h-9 rounded-lg text-white font-semibold hover:bg-red-900 mt-3">Submit</button>
-          <p>Not a User? <Link className="text-blue-500" to="/register">Register</Link></p>
+          <p>Not a User? <Link className=" text-blue-500 cursor-pointer" to="/register">Register</Link></p>
 
 
         </form>
       </div>
-      <div className=" md:rounded-tr-md md:rounded-br-md bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center  " style={{ backgroundImage: "url(lp.png)" }}>
+      <div className=" left-container animate-slide-from-left   md:rounded-tr-md md:rounded-br-md bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center  " style={{ backgroundImage: "url(lp.png)" }}>
         <p className="text-white font-bold text-xl sm:text-3xl md:text-4xl  text-center ">Sign in to <br /> post essays for <br /> free</p>
 
       </div>

@@ -1,6 +1,7 @@
 
 import { Routes, Route } from "react-router-dom";
-import { Toaster } from 'react-hot-toast'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { UserContextProvider } from "../context/userContext";
 import Navbar from './components/navbar';
 import Login from './components/login';
@@ -10,6 +11,7 @@ import Post from "./components/post"
 import PostPage from "./components/postpage"
 import SinglePost from './components/singlePost';
 import Footer from './components/footer'
+import Home from './components/home'
 import './App.css'
 
 
@@ -21,9 +23,11 @@ function App() {
     <UserContextProvider>
       <Navbar />
 
-      <Toaster position="top-right" />
+      
+      <ToastContainer />
       <Routes>
-        <Route path='/' element={<PostPage />} />
+        <Route path='/posts' element={<PostPage />} />
+        <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/account' element={<Account />} />

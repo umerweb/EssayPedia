@@ -7,4 +7,40 @@
     .input{
         @apply bg-slate-100  rounded-full h-7 px-4;
     }
+    .bgDark{
+      background-color: #212138;
+    }
+    .shadow{
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
 }
+
+
+
+
+@keyframes slideFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  @keyframes slideFromRight {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  .animate-slide-from-left {
+    animation: slideFromLeft 0.5s ease forwards;
+  }
+  
+  .animate-slide-from-right {
+    animation: slideFromRight 0.5s ease forwards;
+  }
+  

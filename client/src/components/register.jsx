@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { toast } from 'react-hot-toast';
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
@@ -37,7 +38,9 @@ const Register = () => {
       let data = await res.json()
 
       if (data.error) {
-        toast.error(data.error)
+        toast.error(data.error,{
+          theme: "dark"
+        })
 
       } else {
         setregform({
@@ -46,7 +49,9 @@ const Register = () => {
           email: '',
           password: ''
         })
-        toast.success('Registration Succesful! Login Here')
+        toast.success('Registration Succesful! Login Here',{
+          theme:"dark"
+        })
         navigate('/login')
       }
 
@@ -82,12 +87,12 @@ const Register = () => {
   }
 
   return (
-    <div className="flex pt-11 flex-col md:flex-row  justify-center items-center min-h-[90vh] bg-slate-100">
-      <div className=" md:rounded-tl-md md:rounded-bl-md  bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: "url(lp.png)" }}>
+    <div className="flex z-0 pt-11 flex-col md:flex-row  justify-center items-center min-h-[90vh] bg-slate-100">
+      <div className=" right-container animate-slide-from-right md:rounded-tl-md md:rounded-bl-md  bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: "url(lp.png)" }}>
         <p className="text-white font-bold text-xl sm:text-3xl md:text-4xl  text-center ">Sign up to <br /> post essays for <br /> free</p>
 
       </div>
-      <div className="flex flex-col min-w-[90vw] md:min-w-[40vw] md:mb-0 mb-9 justify-center min-h-[75vh] md:rounded-tr-md md:rounded-br-md  bg-white  items-center">
+      <div className="left-container animate-slide-from-left   flex flex-col min-w-[90vw] md:min-w-[40vw] md:mb-0 mb-9 justify-center min-h-[75vh] md:rounded-tr-md md:rounded-br-md  bg-white  items-center">
         <h2 className="font font-bold text-3xl mb-4">Register</h2>
         <form className="flex flex-col justify-center items-start gap-3" onSubmit={handleregister}>
 
@@ -139,7 +144,7 @@ const Register = () => {
 
           <button onClick={handleregister} className="bg-yellow-500 w-full h-9 rounded-lg text-white font-semibold hover:bg-red-900 mt-3">Register</button>
 
-          <p>Already a User? <Link className="text-blue-500" to="/login">Sign Up</Link></p>
+          <p>Already a User? <Link className="text-blue-500 cursor-pointer" to="/login">Sign Up</Link></p>
 
         </form>
       </div>

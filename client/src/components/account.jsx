@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Addpost from './post'
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Account = () => {
@@ -12,6 +13,7 @@ const Account = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0);
     const [posts, setPosts] = useState([]);
+    
 
     const handleLogout = async () => {
         await logout();
@@ -42,6 +44,8 @@ const Account = () => {
             fetchPosts();
         }
     }, [user]); // Run fetchPosts when the user state changes
+
+ 
 
     const limitWords = (text, limit) => {
         const words = text.split(' ');
@@ -100,6 +104,7 @@ const Account = () => {
                                 <p className="text-base font-semibold">Full Name: {user && user.name}</p>
                                 <p className="text-base font-semibold">Email: {user && user.email}</p>
                                 <p className="text-base font-semibold">Username: {user && user.username}</p>
+                               
                             </div>
                         </div>
                     </TabPanel>
@@ -122,6 +127,7 @@ const Account = () => {
                                             <p className="text-gray-600">{datePost(post.createdAt)}</p>
                                             <p className="italic">{post.uni}</p>
                                             <p className="font2">{limitWords(post.content, 50)}</p>
+                                            <p><b>Category:</b> {post.category}</p>
                                             <Link to={`/posts/${post._id}`} className="text-blue-600 hover:underline">Read More</Link>
                                         </div>
                                     ))}
