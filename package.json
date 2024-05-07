@@ -1,0 +1,17 @@
+{
+  "name": "essays.se",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "i-server":"cd server && npm install",
+    "start-server":"cd server && node server.js",
+    "i-client":"cd client && npm install",
+    "build-client":"cd client && npm run build",
+    "start":"cd client && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
