@@ -9,7 +9,7 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     async function fetchUserProfile() {
       try {
-        const response = await fetch('http://localhost:3000/profile', {
+        const response = await fetch('https://essaypedia.onrender.com/profile', {
           credentials: 'include', // Send cookies with the request
         });
         if (response.ok) {
@@ -30,7 +30,7 @@ export function UserContextProvider({ children }) {
 
   const logout = async () => {
     try {
-      const response = await fetch('http://localhost:3000/logout', {
+      const response = await fetch('https://essaypedia.onrender.com/logout', {
         method: 'POST',
         credentials: 'include', // Send cookies with the request
       });

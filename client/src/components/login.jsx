@@ -21,7 +21,7 @@ const Login = () => {
   const handlelogin = async (e) => {
     e.preventDefault()
     try {
-      let res = await fetch("http://localhost:3000/login/", { method: "POST", credentials: 'include', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...logform }) })
+      let res = await fetch("https://essaypedia.onrender.com/login/", { method: "POST", credentials: 'include', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...logform }) })
       let data = await res.json();
       console.log(data ,"i am login api")
 

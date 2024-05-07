@@ -14,7 +14,7 @@ const PostList = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:3000/post/api/cats');
+      const response = await fetch('https://essaypedia.onrender.com/post/api/cats');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }
@@ -42,8 +42,8 @@ const PostList = () => {
 
     const fetchPosts = async () => {
       try {
-        const postsResponse = await fetch('http://localhost:3000/post/allposts');
-        const usersResponse = await fetch('http://localhost:3000/post/allusers');
+        const postsResponse = await fetch('https://essaypedia.onrender.com/post/allposts');
+        const usersResponse = await fetch('https://essaypedia.onrender.com/post/allusers');
 
         if (!postsResponse.ok || !usersResponse.ok) {
           throw new Error('Failed to fetch data');
