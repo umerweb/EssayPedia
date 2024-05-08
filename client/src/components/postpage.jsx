@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Loader from './loader'; // Import your loader component
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const PostList = () => {
   const [postsWithUsers, setPostsWithUsers] = useState([]);
@@ -112,9 +114,10 @@ const PostList = () => {
 
   return (
     <div className='bg-gray-100 min-h-screen px-2 md:px-20'>
-      {isLoading ? (
+      <SkeletonTheme baseColor="#202020" highlightColor="#444">
+    {/*  {isLoading ? (
         <Loader />
-      ) : (
+      ) : (*/}
         <div className='container mx-auto py-10 px-4 md:px-8'>
           <div className="bg-slate-50 h-24 flex justify-center ">
             <div className="flex md:flex-row md:py-0 flex-col py-4 w-full justify-between px-8  items-center ">
@@ -163,13 +166,13 @@ const PostList = () => {
               <div className='md:w-full' key={post._id}>
                 <div className='bg-gray-200 my-4 md:p-4 p-2 flex flex-col justify-between rounded-md shadow-md'>
                   <Link to={`/posts/${post._id}`}>
-                    <h2 className='font-bold text-lg md:text-xl hover:underline hover:text-blue-600'>{post.title}</h2>
+                    <h2 className='font-bold text-lg md:text-xl hover:underline hover:text-blue-600'>{post.title || <Skeleton />}</h2>
                   </Link>
-                  <p>{datePost(post.createdAt)}</p>
-                  <p className='italic text-gray-700 text-md font-semibold'>{post.uni}</p>
-                  <p className='font2 break-words'><b>Abstract: </b>{limitWords(post.content, 30)}</p>
-                  <p><b>Author:</b> {post.username}</p>
-                  <p><b>Category:</b> {post.category}</p>
+                  <p>{datePost(post.createdAt || <Skeleton />)}</p>
+                  <p className='italic text-gray-700 text-md font-semibold'>{post.uni || <Skeleton />}</p>
+                  <p className='font2 break-words'><b>Abstract: </b>{limitWords(post.content, 30) || <Skeleton />}</p>
+                  <p><b>Author:</b> {post.username || <Skeleton />}</p>
+                  <p><b>Category:</b> {post.category || <Skeleton />}</p>
                   <Link to={`/posts/${post._id}`} className='text-blue-600 hover:underline'>Read More</Link>
                 </div>
               </div>
@@ -189,7 +192,8 @@ const PostList = () => {
             ))}
           </div>
         </div>
-      )}
+      {/*)}*/}
+      </SkeletonTheme>
     </div>
   );
 };
