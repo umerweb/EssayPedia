@@ -168,11 +168,11 @@ const PostList = () => {
                   <Link to={`/posts/${post._id}`}>
                     <h2 className='font-bold text-lg md:text-xl hover:underline hover:text-blue-600'>{post.title || <Skeleton />}</h2>
                   </Link>
-                  <p>{datePost(post.createdAt || <Skeleton />)}</p>
-                  <p className='italic text-gray-700 text-md font-semibold'>{post.uni || <Skeleton />}</p>
-                  <p className='font2 break-words'><b>Abstract: </b>{limitWords(post.content, 30) || <Skeleton />}</p>
-                  <p><b>Author:</b> {post.username || <Skeleton />}</p>
-                  <p><b>Category:</b> {post.category || <Skeleton />}</p>
+                  <p>{datePost(post.createdAt || <Skeleton width={200} />)}</p>
+                  <p className='italic text-gray-700 text-md font-semibold'>{post.uni || <Skeleton width={200} />}</p>
+                  <p className='font2 break-words'><b>Abstract: </b>{limitWords(post.content, 30) || <Skeleton width={200} />}</p>
+                  <p><b>Author:</b> {post.username || <Skeleton width={200} />}</p>
+                  <p><b>Category:</b> {post.category || <Skeleton width={200} />}</p>
                   <Link to={`/posts/${post._id}`} className='text-blue-600 hover:underline'>Read More</Link>
                 </div>
               </div>
