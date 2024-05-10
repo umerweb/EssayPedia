@@ -23,9 +23,6 @@ app.use(cors({ credentials: true, origin: 'https://essaypedia-1.onrender.com' })
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}))
-app.use('/', authRouter)
-app.use('/post', postRouter)
-
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "dist/index.html"), function (err) {
@@ -34,6 +31,12 @@ app.get("/*", function (req, res) {
     }
   });
 });
+
+app.use('/', authRouter)
+app.use('/post', postRouter)
+
+
+
 
 
 app.listen(port, () => {
