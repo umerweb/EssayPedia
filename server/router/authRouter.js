@@ -117,7 +117,7 @@ router.post('/adminlogin', async (req, res) => {
     tok.sign({ id: loginUser._id, name: loginUser.name, email: loginUser.email, username: loginUser.username }, process.env.tok_secret, {}, (err, token) => {
       if (err) throw err;
       // Set token in cookie and send user data in response
-      res.cookie('token', token, { httpOnly: false, sameSite: 'none', secure: true }).json(loginUser);
+      res.cookie('token', token, { httpOnly: true, sameSite: 'none', secure: true }).json(loginUser);
     });
   } catch (error) {
     console.log("Cannot log in", error);
@@ -163,13 +163,15 @@ router.get('/profile', async (req, res) => {
 router.post('/logout', async (req, res) => {
   try {
     // Clear the token cookie
-    res.clearCookie('token');
+    res.clearCookie('token', { httpOnly: true, sameSite: 'none', secure: true });
     res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     console.error('Error logging out:', error);
     res.status(500).json({ error: 'Logout failed', details: error.message });
   }
 });
+
+
 
 
   export default router;
