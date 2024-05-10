@@ -15,7 +15,7 @@ const AllUsers = () => {
 
   const fetchPeople = async () => {
     try {
-      const response = await fetch("http://localhost:3000/post/allusers");
+      const response = await fetch("https://essaypedia.onrender.com/post/allusers");
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }

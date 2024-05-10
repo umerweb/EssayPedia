@@ -31,7 +31,7 @@ const Account = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/post/userposts/${user._id}`);
+            const response = await fetch(`https://essaypedia.onrender.com/post/userposts/${user._id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch posts');
             }
@@ -70,7 +70,7 @@ const Account = () => {
 
     const deletepost = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/post/deletepost/${id}`, {
+            const response = await fetch(`https://essaypedia.onrender.com/post/deletepost/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });

@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Fetch post count
-    fetch('http://localhost:3000/post/posts/count')
+    fetch('https://essaypedia.onrender.com/post/posts/count')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch post count');
@@ -24,7 +24,7 @@ const Dashboard = () => {
       });
 
     // Fetch user count
-    fetch('http://localhost:3000/post/users/count')
+    fetch('https://essaypedia.onrender.com/post/users/count')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch user count');

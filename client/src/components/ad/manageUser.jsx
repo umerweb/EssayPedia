@@ -27,7 +27,7 @@ const Mangeuser = () => {
     e.preventDefault()
 
     try {
-      let res = await fetch("http://localhost:3000/register/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...regform }) })
+      let res = await fetch("https://essaypedia.onrender.com/register/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...regform }) })
       let data = await res.json()
       console.log(data)
 
