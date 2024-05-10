@@ -117,7 +117,7 @@ router.post('/adminlogin', async (req, res) => {
     tok.sign({ id: loginUser._id, name: loginUser.name, email: loginUser.email, username: loginUser.username }, process.env.tok_secret, {}, (err, token) => {
       if (err) throw err;
       // Set token in cookie and send user data in response
-      res.cookie('token', token, { httpOnly: true, sameSite: 'none', secure: true }).json(loginUser);
+      res.cookie('token', token, {  sameSite: 'none', secure: true }).json(loginUser);
     });
   } catch (error) {
     console.log("Cannot log in", error);
