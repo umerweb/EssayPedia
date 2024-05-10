@@ -98,8 +98,7 @@ const Account = () => {
                     <Tab className={`py-2 px-4 bg-gray-200 font-semibold text-sm rounded md:mb-2 ${activeTab === 1 && 'bg-yellow-300'}`} onClick={() => setActiveTab(1)}>Add Post</Tab>
                     <Tab className={`py-2 px-4 bg-gray-200 font-semibold text-sm rounded md:mb-2 ${activeTab === 2 && 'bg-yellow-300'}`} onClick={() => setActiveTab(2)}>My Posts</Tab>
                     { user.role == "admin" ? ( <Link to={'/dashboard'} ><button className="bg-green-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 md:mt-4">Admin</button></Link>):(<></>)}
-                   
-                    <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 md:mt-4">Logout</button>
+
                    
                 </TabList>
             </div>
