@@ -12,7 +12,13 @@ const Users = new mongoose.Schema({
     "createdAt": {
         type: Date,
         default: Date.now // Automatically set the current date and time when a new post is created
-      }
+      },
+      "role": {
+        type: String,
+        enum: ['user', 'admin', 'author'], // Another example of enum field
+        default: 'user' // Set a default value
+      },
+    
     
 });
 

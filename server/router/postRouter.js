@@ -11,7 +11,7 @@ import 'dotenv/config'
 import cookieParser from 'cookie-parser';
 
 const router = express.Router()
-router.use(cors({ credentials: true, origin: 'https://essaypedia-1.onrender.com' }));
+router.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 router.use(bodyParser.json())
 
 router.use(cookieParser())
@@ -112,6 +112,22 @@ router.get('/allposts', async (req, res) => {
     }
 });
 
+router.delete('/deleteuser/:userdelId', async (req, res) => {
+  try {
+      const delId = req.params.userdelId;
+      const user = await userSchema.deleteOne({ _id: delId });
+      
+      if (!user) {
+          return res.status(404).json({ error: 'Could not delete the post' });
+      }
+      
+      res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting post:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 router.post('/cat', async (req, res) => {
   const {cat } = req.body;
   try {
@@ -144,6 +160,42 @@ router.get('/api/latest', async (req, res) => {
     res.json(posts); // Send the fetched posts as JSON response
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+router.get('/api/managepost', async (req, res) => {
+  try {
+    const posts = await postSchema.find();
+
+    if (posts.length === 0) {
+      return res.status(404).json({ error: 'No posts found' });
+    }
+
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+
+router.get('/users/count', async (req, res) => {
+  try {
+    const count = await userSchema.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    console.error('Error fetching document count:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+router.get('/posts/count', async (req, res) => {
+  try {
+    const count = await postSchema.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    console.error('Error fetching document count:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

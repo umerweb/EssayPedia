@@ -11,7 +11,7 @@ import cookieParser from 'cookie-parser';
 const router = express.Router()
 
 
-router.use(cors({ credentials: true, origin: 'https://essaypedia-1.onrender.com' }));
+router.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 router.use(bodyParser.json())
 
 router.use(cookieParser())
@@ -25,7 +25,7 @@ router.get('/',  (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { name, username, email, password } = req.body;
+    const { name, username, email, password, role } = req.body;
 
     // Check if email exists
     const existingEmail = await userSchema.findOne({ email });
@@ -50,6 +50,7 @@ router.post('/register', async (req, res) => {
        username, 
        email, 
        password: hashedPassword,
+       role
        });
 
     res.json({ success: true, user: newUser });
@@ -89,6 +90,42 @@ router.post('/login', async (req, res) => {
     return res.status(500).json({ error: "Login Failed", details: error.message });
   }
 });
+
+
+router.post('/adminlogin', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if user exists
+    const loginUser = await userSchema.findOne({ email });
+    if (!loginUser) {
+      return res.json({ error: "Email Does not Exist" });
+    }
+
+    // Compare passwords
+    const match = await comparePasswords(password, loginUser.password);
+    if (!match) {
+      return res.json({ error: "Incorrect password" });
+    }
+
+    // Check user role
+    if (loginUser.role !== 'admin') {
+      return res.json({ error: "User is not authorized to access admin panel" });
+    }
+
+    // Generate token
+    tok.sign({ id: loginUser._id, name: loginUser.name, email: loginUser.email, username: loginUser.username }, process.env.tok_secret, {}, (err, token) => {
+      if (err) throw err;
+      // Set token in cookie and send user data in response
+      res.cookie('token', token, { httpOnly: true, sameSite: 'none', secure: true }).json(loginUser);
+    });
+  } catch (error) {
+    console.log("Cannot log in", error);
+    return res.status(500).json({ error: "Login Failed", details: error.message });
+  }
+});
+
+
 
 router.get('/profile', async (req, res) => {
   try {

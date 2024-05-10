@@ -18,7 +18,7 @@ const Post = () => {
     // Fetch categories from the backend API
     const fetchCategories = async () => {
         try {
-            const response = await fetch('https://essaypedia.onrender.com/post/api/cats');
+            const response = await fetch('http://localhost:3000/post/api/cats');
             if (!response.ok) {
                 throw new Error('Failed to fetch categories');
             }
@@ -40,7 +40,7 @@ const Post = () => {
     const createPost = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("https://essaypedia.onrender.com/post", {
+            const res = await fetch("http://localhost:3000/post", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newPost)

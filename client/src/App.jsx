@@ -12,6 +12,8 @@ import PostPage from "./components/postpage"
 import SinglePost from './components/singlePost';
 import Footer from './components/footer'
 import Home from './components/home'
+import Admin from './components/admin'
+import AdminLogin from './components/adminlogin'
 import './App.css'
 
 
@@ -33,6 +35,8 @@ function App() {
         <Route path='/account' element={<Account />} />
         <Route path='/newpost' element={<Post />} />
         <Route path='/posts/:postId' element={<SinglePost />} />
+        <Route path='/dashboard' element={<Admin />} />
+        <Route path='/super-admin' element={<AdminLogin />} />
 
       </Routes>
       <Footer />

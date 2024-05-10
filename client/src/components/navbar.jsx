@@ -1,12 +1,21 @@
 import { useContext, useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import { Link,  useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from "../../context/userContext";
 
 const Navbar = () => {
   const { user, logout } = useContext(UserContext);
   const [isHovered, setIsHovered] = useState(false);
+
+
+  const location = useLocation();
+  const hideHeaderForPaths = ['/dashboard'];
+  const navigate = useNavigate();
+
+  if(hideHeaderForPaths.includes(location.pathname)) {
+     return <></>;
+  }
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -18,6 +27,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await logout();
+    navigate('/')
     toast.success('Logged Out Successfully!', {
       theme: "dark"
     });
@@ -43,7 +53,7 @@ const Navbar = () => {
             >
               Hi, {user.name}
               {isHovered && (
-                <div className='absolute top-full left-0 w-40  bg-white shadow-lg rounded-lg py-2 px-4'>
+                <div className='absolute top-full left-0 w-36  right-0 bg-white shadow-lg rounded-lg py-2 pl-4 pr-2'>
                   <Link to="/account" className='block text-gray-800 hover:text-gray-600 '>
                     Account
                   </Link>

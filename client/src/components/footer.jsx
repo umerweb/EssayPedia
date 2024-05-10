@@ -1,7 +1,14 @@
 
-
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+  
+  const location = useLocation();
+  const hideHeaderForPaths = ['/dashboard'];
+
+  if(hideHeaderForPaths.includes(location.pathname)) {
+     return <></>;
+  }
   return (
     <footer className="bg-gray-800 text-white py-8">
       <div className="container mx-auto px-4">

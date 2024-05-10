@@ -1,33 +1,26 @@
-import { useState, useEffect, useRef } from "react";
-import {  toast } from 'react-toastify';
+import { useState, useRef } from "react";
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/userContext";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
 
-const Register = () => {
-  const navigate = useNavigate()
-  const { user } = useContext(UserContext);
+
+
+
+const Mangeuser = () => {
+
+
   const lock = useRef();
   const lockref = useRef();
 
 
-  useEffect(() => {
-    if (user !== null) {
-      navigate('/')
-
-    }
-
-
-  }, [user])
 
   const [regform, setregform] = useState({
     name: '',
     username: '',
     email: '',
-    password: ''
+    password: '',
+    role: ''
   })
+
 
 
   const handleregister = async (e) => {
@@ -39,7 +32,7 @@ const Register = () => {
       console.log(data)
 
       if (data.error) {
-        toast.error(data.error,{
+        toast.error(data.error, {
           theme: "dark"
         })
 
@@ -51,10 +44,10 @@ const Register = () => {
           password: ''
         })
 
-        toast.success('Registration Succesful! Login Here',{
-          theme:"dark"
+        toast.success('New User added Successfully', {
+          theme: "dark"
         })
-        navigate('/login')
+
       }
 
 
@@ -89,13 +82,10 @@ const Register = () => {
   }
 
   return (
-    <div className="flex z-0 pt-11 flex-col md:flex-row  justify-center items-center min-h-[90vh] bg-slate-100">
-      <div className=" right-container animate-slide-from-right md:rounded-tl-md md:rounded-bl-md  bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: "url(lp.png)" }}>
-        <p className="text-white font-bold text-xl sm:text-3xl md:text-4xl  text-center ">Sign up to <br /> post essays for <br /> free</p>
+    <div className="flex z-0 pt-11 flex-col md:flex-row h-screen  justify-center items-center min-h-[90vh] bg-slate-100">
 
-      </div>
       <div className="left-container animate-slide-from-left   flex flex-col min-w-[90vw] md:min-w-[40vw] md:mb-0 mb-9 justify-center min-h-[75vh] md:rounded-tr-md md:rounded-br-md  bg-white  items-center">
-        <h2 className="font font-bold text-3xl mb-4">Register</h2>
+        <h2 className="font font-bold text-3xl mb-4">Add a New User</h2>
         <form className="flex flex-col justify-center items-start gap-3" onSubmit={handleregister}>
 
           <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-full">
@@ -131,6 +121,26 @@ const Register = () => {
               id="email"
             /></div>
 
+
+          <div className="bg-slate-200 w-full flex justify-start items-center py-2 px-4 rounded-full">
+          <i className="fa-solid text-lg fa-user"></i>
+            <select
+              value={regform.role}
+              className="bg-slate-200 text-sm border-none outline-none font-semibold placeholder-slate-800 pl-2"
+              onChange={handleChange}
+              name="role"
+            >
+              <option value="all">Select Role</option>
+
+              <option value="user">User</option>
+              <option value="author">Author</option>
+              <option value="admin">Admin</option>
+
+            </select></div>
+
+
+
+
           <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-full">
             <img src="padlock.png" className="w-5 cursor-pointer" onClick={showpassword} ref={lock} />
             <input onChange={handleChange}
@@ -144,9 +154,9 @@ const Register = () => {
             /></div>
 
 
-          <button onClick={handleregister} className="bg-yellow-500 w-full h-9 rounded-lg text-white font-semibold hover:bg-red-900 mt-3">Register</button>
+          <button onClick={handleregister} className="bg-yellow-500 w-full h-9 rounded-lg text-white font-semibold hover:bg-red-900 mt-3">Add User</button>
 
-          <p>Already a User? <Link className="text-blue-500 cursor-pointer" to="/login">Sign Up</Link></p>
+
 
         </form>
       </div>
@@ -154,4 +164,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Mangeuser

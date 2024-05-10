@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Loader from './loader'; // Import your loader component
-
+import Loader from '../loader'; // Import your loader component
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PostList = () => {
   const [postsWithUsers, setPostsWithUsers] = useState([]);
@@ -26,8 +27,38 @@ const PostList = () => {
     }
   };
 
+  // Define fetchPosts function
+  const fetchPosts = async () => {
+    try {
+      const postsResponse = await fetch('http://localhost:3000/post/allposts');
+      const usersResponse = await fetch('http://localhost:3000/post/allusers');
+
+      if (!postsResponse.ok || !usersResponse.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const postsData = await postsResponse.json();
+      const usersData = await usersResponse.json();
+
+      // Combine posts with user data
+      const postsWithUsersData = postsData.map(post => {
+        const user = usersData.find(user => user._id === post.userId);
+        return {
+          ...post,
+          username: user ? user.username : 'Unknown',
+        };
+      });
+
+      setPostsWithUsers(postsWithUsersData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   useEffect(() => {
     fetchCategories(); // Fetch categories when component mounts
+    fetchPosts(); // Fetch posts when component mounts
   }, []);
 
   useEffect(() => {
@@ -41,36 +72,27 @@ const PostList = () => {
       setSelectedCategory(cat);
     }
 
-    const fetchPosts = async () => {
-      try {
-        const postsResponse = await fetch('http://localhost:3000/post/allposts');
-        const usersResponse = await fetch('http://localhost:3000/post/allusers');
-
-        if (!postsResponse.ok || !usersResponse.ok) {
-          throw new Error('Failed to fetch data');
-        }
-
-        const postsData = await postsResponse.json();
-        const usersData = await usersResponse.json();
-
-        // Combine posts with user data
-        const postsWithUsersData = postsData.map(post => {
-          const user = usersData.find(user => user._id === post.userId);
-          return {
-            ...post,
-            username: user ? user.username : 'Unknown',
-          };
-        });
-
-        setPostsWithUsers(postsWithUsersData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchPosts();
+    fetchPosts(); // Fetch posts when location.search changes
   }, [location.search]);
+
+  const deletePost = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/post/deletepost/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
+      }
+
+       await response.json();
+      toast.success("Post Deleted Successfully!");
+      fetchPosts(); // Refresh posts after successful deletion
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
 
   const limitWords = (text, limit) => {
     const words = text.split(' ');
@@ -112,14 +134,16 @@ const PostList = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className='bg-gray-100 min-h-screen px-2 md:px-20'>
+    <div className='bg-gray-100 min-h-screen px-3'>
       {isLoading ? (
         <Loader />
       ) : (
         <div className='container mx-auto py-10 px-4 md:px-8'>
-          <div className="bg-white h-24 flex justify-center ">
-            <div className="flex md:flex-row md:py-0 flex-col py-4 w-full justify-between px-8  items-center ">
-              <div className="flex  justify-start items-center gap-3 w-full">
+          <h1 className='text-center text-3xl font-bold py-8 font2'>Manage Posts</h1>
+
+          <div className="bg-white h-24 flex justify-center">
+            <div className="flex md:flex-row md:py-0 flex-col py-4 w-full justify-between px-8 items-center">
+              <div className="flex justify-start items-center gap-3 w-full">
                 <i className="fa-solid fa-magnifying-glass text-lg md:text-2xl opacity-45"></i>
                 <input
                   className="md:text-lg text-md outline-none bg-transparent placeholder-slate-500 w-full"
@@ -145,6 +169,7 @@ const PostList = () => {
               </div>
             </div>
           </div>
+
           <div className='flex justify-between items-center'>
             <h1 className='font-bold text-lg md:text-xl py-4'>
               {searchQuery === '' ? (
@@ -154,6 +179,7 @@ const PostList = () => {
               )}
             </h1>
           </div>
+
           <div className='flex flex-col justify-center items-start'>
             {filteredPosts.length === 0 && searchQuery && (
               <div className='min-h-[70vh] font2'>
@@ -166,12 +192,14 @@ const PostList = () => {
                   <Link to={`/posts/${post._id}`}>
                     <h2 className='font-bold text-lg md:text-xl hover:underline hover:text-blue-600'>{post.title}</h2>
                   </Link>
+                 
                   <p>{datePost(post.createdAt)}</p>
                   <p className='italic text-gray-700 text-md font-semibold'>{post.uni}</p>
-                  <p className='font2 break-words'><b>Abstract: </b>{limitWords(post.content, 30)}</p>
+                  <p className='font2 break-words'><b>Abstract: </b>{limitWords(post.content, 10)}</p>
                   <p><b>Author:</b> {post.username}</p>
                   <p><b>Category:</b> {post.category}</p>
-                  <Link to={`/posts/${post._id}`} className='text-blue-600 hover:underline'>Read More</Link>
+                  
+                  <button onClick={() => deletePost(post._id)} className='rounded-sm px-2 bg-red-500 font-semibold text-white'  >Delete</button>
                 </div>
               </div>
             ))}
@@ -196,6 +224,7 @@ const PostList = () => {
 };
 
 export default PostList;
+
 
 
 {/*import { useState, useEffect } from 'react';

@@ -17,18 +17,21 @@ const Account = () => {
 
     const handleLogout = async () => {
         await logout();
+        
         // Additional logic after logout, if needed
     };
+    
 
     useEffect(() => {
-        if (user === null) {
-            navigate('/');
+        if (!user) {
+            console.log("User not authenticated. Redirecting to login...");
+            navigate('/'); // Redirect to login if user is not authenticated
         }
     }, [user, navigate]);
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch(`https://essaypedia.onrender.com/post/userposts/${user._id}`);
+            const response = await fetch(`http://localhost:3000/post/userposts/${user._id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch posts');
             }
@@ -40,10 +43,11 @@ const Account = () => {
     };
     
     useEffect(() => {
-        if (user) {
-            fetchPosts();
+        // Redirect if user is not logged in or is not an admin
+        if (!user ) {
+          navigate('/'); // Redirect to the home page or another appropriate route
         }
-    }, [user]); // Run fetchPosts when the user state changes
+      }, [user, navigate]);
 
  
 
@@ -66,7 +70,7 @@ const Account = () => {
 
     const deletepost = async (id) => {
         try {
-            const response = await fetch(`https://essaypedia.onrender.com/post/deletepost/${id}`, {
+            const response = await fetch(`http://localhost:3000/post/deletepost/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -89,10 +93,14 @@ const Account = () => {
             <div className="bg-white p-4 shadow-md md:w-1/4">
                 <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
                 <TabList className="flex flex-row md:flex-col gap-4 md:gap-0">
+                
                     <Tab className={`py-2 px-4 bg-gray-200 font-semibold text-sm rounded md:mb-2 ${activeTab === 0 && 'bg-yellow-300'}`} onClick={() => setActiveTab(0)}>User Info</Tab>
                     <Tab className={`py-2 px-4 bg-gray-200 font-semibold text-sm rounded md:mb-2 ${activeTab === 1 && 'bg-yellow-300'}`} onClick={() => setActiveTab(1)}>Add Post</Tab>
                     <Tab className={`py-2 px-4 bg-gray-200 font-semibold text-sm rounded md:mb-2 ${activeTab === 2 && 'bg-yellow-300'}`} onClick={() => setActiveTab(2)}>My Posts</Tab>
+                    { user.role == "admin" ? ( <Link to={'/dashboard'} ><button className="bg-green-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 md:mt-4">Admin</button></Link>):(<></>)}
+                   
                     <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 md:mt-4">Logout</button>
+                   
                 </TabList>
             </div>
             <div className="flex-grow bg-gray-100 p-4 shadow-md md:w-3/4">

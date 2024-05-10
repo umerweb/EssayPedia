@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,9 +21,9 @@ const Login = () => {
   const handlelogin = async (e) => {
     e.preventDefault()
     try {
-      let res = await fetch("http://localhost:3000/login/", { method: "POST", credentials: 'include', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...logform }) })
+      let res = await fetch("http://localhost:3000/adminlogin/", { method: "POST", credentials: 'include', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...logform }) })
       let data = await res.json();
-      console.log(data ,"i am login api")
+      console.log(data ,"i am aminlogin api")
 
       if (data.error) {
         toast.error(data.error, {
@@ -56,7 +56,7 @@ const Login = () => {
           password: ''
         })
         setUser(data)
-        navigate('/')
+        navigate('/dashboard')
       }
 
     } catch (error) {
@@ -114,7 +114,7 @@ const Login = () => {
 
 
       <div className="right-container animate-slide-from-right flex flex-col min-w-[90vw] md:min-w-[40vw] justify-center min-h-[75vh] md:rounded-tl-md md:rounded-bl-md bg-white  items-center mb-8 md:mb-0">
-        <h2 className="font font-bold text-3xl mb-4">Login</h2>
+        <h2 className="font font-bold text-3xl mb-4">Login To Dashboard</h2>
         <form className="flex flex-col justify-center gap-4 items-start" onSubmit={handlelogin}>
 
 
@@ -148,15 +148,12 @@ const Login = () => {
           </div>
 
           <button className="bg-yellow-500 w-[100%] h-9 rounded-lg text-white font-semibold hover:bg-red-900 mt-3">Submit</button>
-          <p>Not a User? <Link className=" text-blue-500 cursor-pointer" to="/register">Register</Link></p>
+          
 
 
         </form>
       </div>
-      <div className=" left-container animate-slide-from-left   md:rounded-tr-md md:rounded-br-md bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center  " style={{ backgroundImage: "url(lp.png)" }}>
-        <p className="text-white font-bold text-xl sm:text-3xl md:text-4xl  text-center ">Sign in to <br /> post essays for <br /> free</p>
-
-      </div>
+    
 
     </div>
   )

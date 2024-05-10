@@ -10,7 +10,7 @@ const SinglePost = () => {
     const fetchPostAndUser = async () => {
       try {
         // Fetch post data
-        const postResponse = await fetch(`https://essaypedia.onrender.com/post/${postId}`);
+        const postResponse = await fetch(`http://localhost:3000/post/${postId}`);
         if (!postResponse.ok) {
           throw new Error('Failed to fetch post');
         }
@@ -18,7 +18,7 @@ const SinglePost = () => {
         setPost(postData);
 
         // Fetch user data using userId from post data
-        const userResponse = await fetch(`https://essaypedia.onrender.com/post/user/${postData.userId}`);
+        const userResponse = await fetch(`http://localhost:3000/post/user/${postData.userId}`);
         if (!userResponse.ok) {
           throw new Error('Failed to fetch user');
         }
