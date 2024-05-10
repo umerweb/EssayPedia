@@ -24,13 +24,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}))
 
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "dist/index.html"), function (err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
+
 
 app.use('/', authRouter)
 app.use('/post', postRouter)
