@@ -49,7 +49,7 @@ const Home = () => {
       <div className="flex w-full  flex-col md:min-h-[80vh] min-h-[60vh] justify-center px-3 md:px-20 gap-5" style={{ backgroundImage: "url(bgs.png)", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" }}>
         <div className='mb-4'>
           {isLoading ? (
-            <SkeletonTheme color="#e1e1e1" highlightColor="#f2f2f2">
+            <SkeletonTheme color="#7e1919" highlightColor="#000000">
               <Skeleton height={80} />
             </SkeletonTheme>
           ) : (
