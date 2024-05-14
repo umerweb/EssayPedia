@@ -20,7 +20,7 @@ const home = () => {
 
   const latestpost = async () => {
     try {
-      const response = await fetch('https://essaypedia-1.onrender.com/post/api/latest');
+      const response = await fetch('https://essaypedia-1.onrender.com/post/api/latest/');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }
@@ -36,7 +36,7 @@ const home = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('https://essaypedia-1.onrender.com/post/api/cats');
+      const response = await fetch('https://essaypedia-1.onrender.com/post/api/cats/');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }
