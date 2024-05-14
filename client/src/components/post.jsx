@@ -102,6 +102,7 @@ const Post = () => {
                                     name="uni"
                                     id="uni"
                                     value={newPost.uni}
+                                    required
 
                                 /></div>
                             <div className="bg-slate-200 w-full flex justify-center items-center py-2 px-4 rounded-sm">
@@ -113,7 +114,7 @@ const Post = () => {
                                     name="link"
                                     id="link"
                                     value={newPost.link}
-
+                                    required
                                 /></div>
                             <div className="bg-slate-200  w-full flex justify-center items-center py-2 px-4 rounded-sm">
                             <select
