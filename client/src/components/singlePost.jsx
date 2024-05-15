@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is imported
 
 const SinglePost = () => {
   const [post, setPost] = useState(null);
-  const [user, setUser] = useState(null); // State to store user data
+  const [user, setUser] = useState(null);
   const { postId } = useParams();
 
   useEffect(() => {
     const fetchPostAndUser = async () => {
       try {
-        // Fetch post data
         const postResponse = await fetch(`https://essaypedia.onrender.com/post/${postId}`);
         if (!postResponse.ok) {
           throw new Error('Failed to fetch post');
@@ -17,7 +19,6 @@ const SinglePost = () => {
         const postData = await postResponse.json();
         setPost(postData);
 
-        // Fetch user data using userId from post data
         const userResponse = await fetch(`https://essaypedia.onrender.com/post/user/${postData.userId}`);
         if (!userResponse.ok) {
           throw new Error('Failed to fetch user');
@@ -32,10 +33,6 @@ const SinglePost = () => {
     fetchPostAndUser();
   }, [postId]);
 
-  if (!post || !user) {
-    return <div>Loading...</div>;
-  }
-
   const datePost = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -46,21 +43,25 @@ const SinglePost = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col my-14">
-      <h1 className="text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
-      <div className="text-gray-600 italic font-semibold">
-        {post.uni}
+    <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col my-14 bg-white shadow-lg rounded-lg">
+      <h1 className="text-xl md:text-4xl font-bold mb-4">
+        {post ? post.title : <Skeleton count={2} />}
+      </h1>
+      <div className="text-gray-600 italic font-semibold mb-2">
+        {post ? post.uni : <Skeleton width={200} />}
       </div>
-      <p className="text-gray-600">{datePost(post.createdAt)}</p>
-      <div className="mt-4 prose">
-        <p>{post.content}</p>
+      <p className="text-gray-600 mb-4">
+        {post ? datePost(post.createdAt) : <Skeleton width={150} />}
+      </p>
+      <div className="mt-4 prose lg:prose-xl">
+        {post ? <p>{post.content}</p> : <Skeleton count={15} />}
       </div>
       <div className="mt-4 text-gray-600 font-semibold">
-        <b>Author:</b> {user.username}
+        <b>Author:</b> {user ? user.username : <Skeleton width={100} />}
       </div>
 
-      {post.link && (
-        <div className="mt-4 bg-green-300 rounded-sm p-4">
+      {post?.link ? (
+        <div className="mt-4 bg-green-100 rounded-lg p-4">
           <a href={post.link} target="_blank" rel="noopener noreferrer" className="flex items-center font-bold text-sm text-green-800 hover:underline">
             <lord-icon
               src="https://cdn.lordicon.com/ezjqphcn.json"
@@ -68,9 +69,11 @@ const SinglePost = () => {
               style={{ width: '30px' }}
             >
             </lord-icon>
-            AT THIS PAGE YOU CAN DOWNLOAD THE WHOLE ESSAY.
+            <span className="ml-2">AT THIS PAGE YOU CAN DOWNLOAD THE WHOLE ESSAY.</span>
           </a>
         </div>
+      ) : (
+        <Skeleton height={40} />
       )}
     </div>
   );
