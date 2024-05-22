@@ -14,6 +14,7 @@ import Footer from './components/footer'
 import Home from './components/home'
 import Admin from './components/admin'
 import AdminLogin from './components/adminlogin'
+import VerifyEmail from './components/verifyemailsend'
 import './App.css'
 
 
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path='/posts' element={<PostPage />} />
         <Route path='/' element={<Home />} />
+        <Route path='/register/verify/:userId' element={<VerifyEmail />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/account' element={<Account />} />

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef } from "react";
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
@@ -8,13 +8,19 @@ import { Link } from "react-router-dom";
 import LoaderButton from './loaderButton';
 import { useForm } from "react-hook-form";
 
+
 const Register = () => {
   const [isloading , setisloading] = useState(false)
+  const [modal, setModal] = useState(false);
+
+  
   const navigate = useNavigate()
   const { user } = useContext(UserContext);
   const lock = useRef();
   const lockref = useRef();
-
+  const closeModal = () => {
+    setModal(false);
+  };
 
   useEffect(() => {
     if (user !== null) {
@@ -32,7 +38,7 @@ const Register = () => {
   //   password: ''
   // })
   
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
 
   const handleregister = async (formData) => {
@@ -40,7 +46,7 @@ const Register = () => {
     
 
     try {
-      let res = await fetch("https://essaypedia.onrender.com/register/", { method: "POST", headers: { "Content-Type": "application/json" },
+      let res = await fetch("http://localhost:3000/register/", { method: "POST", headers: { "Content-Type": "application/json" },
       // body: JSON.stringify({ ...regform })
        body: JSON.stringify({ name: formData.name, username: formData.username, email: formData.email, password: formData.password })
       });
@@ -62,11 +68,13 @@ const Register = () => {
         //   password: ''
         // })
         setisloading(false)
-
+        setModal(true)
         toast.success('Registration Succesful! Login Here',{
           theme:"dark"
         })
-        navigate('/login')
+        reset()
+        //navigate('/login')
+        
       }
 
 
@@ -102,7 +110,32 @@ const Register = () => {
   }
 
   return (
+    
     <div className="flex z-0 pt-11 flex-col md:flex-row  justify-center items-center min-h-[90vh] bg-slate-100">
+       {modal ? (
+        
+           <div className="bg-white z-50 shadow-lg transform transition-all duration-300 ease-in-out p-6 flex justify-center items-center rounded-md fixed h-[40vh] w-[50vw] flex-col animate-fadeIn">
+          <div className="flex justify-end items-center w-full">
+            <i
+              onClick={closeModal}
+              className="cursor-pointer text-lg fas fa-times"
+            ></i>
+          </div>
+          <div className="flex justify-center items-center flex-col">
+            <i className="fas fa-check-circle text-green-500 text-5xl"></i>
+            <p className="text-3xl font-semibold mt-4">Success!</p>
+          </div>
+          <div className="mt-4">
+            <p className="text-lg">
+              An email has been sent to your email address. Please verify
+              your email.
+            </p>
+          </div>
+        </div>
+        
+       
+        
+      ) : null}
       <div className=" right-container animate-slide-from-right md:rounded-tl-md md:rounded-bl-md  bg-slate-800 min-w-[90vw] md:min-w-[40vw] md:min-h-[75vh] min-h-[40vh] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: "url(lp.png)" }}>
         <p className="text-white font-bold text-xl sm:text-3xl md:text-4xl  text-center ">Sign up to <br /> post essays for <br /> free</p>
 

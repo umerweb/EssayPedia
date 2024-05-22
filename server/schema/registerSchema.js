@@ -18,6 +18,7 @@ const Users = new mongoose.Schema({
         enum: ['user', 'admin', 'author'], // Another example of enum field
         default: 'user' // Set a default value
       },
+      "isVerified": Boolean
     
     
 });

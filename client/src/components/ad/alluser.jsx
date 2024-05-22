@@ -15,7 +15,7 @@ const AllUsers = () => {
 
   const fetchPeople = async () => {
     try {
-      const response = await fetch("https://essaypedia.onrender.com/post/allusers");
+      const response = await fetch("http://localhost:3000/post/allusers");
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }
@@ -51,7 +51,7 @@ const AllUsers = () => {
 
   const deleteUser = async (userId) => {
     try {
-      const response = await fetch(`https://essaypedia.onrender.com/post/deleteuser/${userId}`, {
+      const response = await fetch(`http://localhost:3000/post/deleteuser/${userId}`, {
         method: "DELETE",
       });
       if (!response.ok) {

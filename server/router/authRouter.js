@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import userSchema from '../schema/registerSchema.js'
 import { comparePasswords, hashPassword } from '../helpers/hashpass.js';
 import tok from 'jsonwebtoken';
+import sendEmail from '../untilities/mailer.js';
 
 import 'dotenv/config'
 import cookieParser from 'cookie-parser';
@@ -11,7 +12,7 @@ import cookieParser from 'cookie-parser';
 const router = express.Router()
 
 
-router.use(cors({ credentials: true, origin: 'https://essaypedia-1.onrender.com' }));
+router.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 router.use(bodyParser.json())
 
 router.use(cookieParser())
@@ -44,20 +45,44 @@ router.post('/register', async (req, res) => {
    const hashedPassword = await hashPassword(password);
 
 
+    
+    const isVerified = false;
     // Create new user
     const newUser = await userSchema.create({
        name, 
        username, 
        email, 
        password: hashedPassword,
-       role
+       role,
+       isVerified
        });
+
+       const existingEmail2 = await userSchema.findOne({ email });
+       const userId = existingEmail2._id
+
+       const verifyLink = `http://localhost:5173/register/verify/${userId}`;
+
+       sendEmail(email,"Email verify", `Verify by clicking this link ${verifyLink}`)
 
     res.json({ success: true, user: newUser });
   } catch (error) {
     return res.status(500).json({ error: "Registration Failed", details: error.message });
   }
 });
+
+router.post('/register/verify/:userId', async (req, res) => {
+  try {
+    const id = req.params.userId
+    const verify = await userSchema.updateOne({ _id: id },
+    { $set: { isVerified: true } },)
+  
+
+    res.json({ success: true, verificationStatus: true });
+  } catch (error) {
+    return res.status(500).json({ error: "Verfication Failed", details: error.message });
+  }
+});
+
 
 
 router.post('/login', async (req, res) => {
@@ -66,6 +91,11 @@ router.post('/login', async (req, res) => {
 
     // Check if user exists
     const loginUser = await userSchema.findOne({ email });
+    const verifymail = loginUser.isVerified;
+    if (!verifymail) {
+      return res.json({ error: "Email not Verified" });
+    }
+
     if (!loginUser) {
       return res.json({ error: "Email Does not Exist" });
     }
@@ -80,6 +110,8 @@ router.post('/login', async (req, res) => {
           
         
       })
+
+     
       //return res.json({ success: true, message: "Password matched" });
       
     } else {
@@ -163,15 +195,13 @@ router.get('/profile', async (req, res) => {
 router.post('/logout', async (req, res) => {
   try {
     // Clear the token cookie
-    res.clearCookie('token', { httpOnly: true, sameSite: 'none', secure: true });
+    res.clearCookie('token');
     res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     console.error('Error logging out:', error);
     res.status(500).json({ error: 'Logout failed', details: error.message });
   }
 });
-
-
 
 
   export default router;

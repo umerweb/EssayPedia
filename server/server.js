@@ -18,18 +18,13 @@ const app = express()
 const port = 3000
 
 app.use(express.json()) 
-app.use(cors({ credentials: true, origin: 'https://essaypedia-1.onrender.com' }));
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}))
-
-
-
 app.use('/', authRouter)
 app.use('/post', postRouter)
-
-
 
 
 

@@ -9,17 +9,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Account = () => {
-    const { user, logout } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0);
     const [posts, setPosts] = useState([]);
     
 
-    const handleLogout = async () => {
-        await logout();
-        
-        // Additional logic after logout, if needed
-    };
+    
     
 
     useEffect(() => {
@@ -31,7 +27,7 @@ const Account = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch(`https://essaypedia.onrender.com/post/userposts/${user._id}`);
+            const response = await fetch(`http://localhost:3000/post/userposts/${user._id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch posts');
             }
@@ -70,7 +66,7 @@ const Account = () => {
 
     const deletepost = async (id) => {
         try {
-            const response = await fetch(`https://essaypedia.onrender.com/post/deletepost/${id}`, {
+            const response = await fetch(`http://localhost:3000/post/deletepost/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -98,7 +94,8 @@ const Account = () => {
                     <Tab className={`py-2 px-4 bg-gray-200 font-semibold text-sm rounded md:mb-2 ${activeTab === 1 && 'bg-yellow-300'}`} onClick={() => setActiveTab(1)}>Add Post</Tab>
                     <Tab className={`py-2 px-4 bg-gray-200 font-semibold text-sm rounded md:mb-2 ${activeTab === 2 && 'bg-yellow-300'}`} onClick={() => setActiveTab(2)}>My Posts</Tab>
                     { user.role == "admin" ? ( <Link to={'/dashboard'} ><button className="bg-green-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 md:mt-4">Admin</button></Link>):(<></>)}
-
+                   
+                   
                    
                 </TabList>
             </div>
