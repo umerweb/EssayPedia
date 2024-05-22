@@ -33,7 +33,7 @@ const Mangeuser = () => {
 
 
     try {
-      let res = await fetch("http://localhost:3000/register/", {
+      let res = await fetch("https://essaypedia.onrender.com/register/", {
         method: "POST", headers: { "Content-Type": "application/json" },
         // body: JSON.stringify({ ...regform })
         body: JSON.stringify({ name: formData.name, username: formData.username, email: formData.email, role: formData.role, password: formData.password })

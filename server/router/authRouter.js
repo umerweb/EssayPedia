@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser';
 const router = express.Router()
 
 
-router.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+router.use(cors({ credentials: true, origin: 'https://essaypedia-1.onrender.com' }));
 router.use(bodyParser.json())
 
 router.use(cookieParser())
@@ -60,7 +60,7 @@ router.post('/register', async (req, res) => {
        const existingEmail2 = await userSchema.findOne({ email });
        const userId = existingEmail2._id
 
-       const verifyLink = `http://localhost:5173/register/verify/${userId}`;
+       const verifyLink = `https://essaypedia-1.onrender.com/register/verify/${userId}`;
 
        sendEmail(email,"Email verify", `Verify by clicking this link ${verifyLink}`)
 

@@ -20,7 +20,7 @@ const Login = () => {
   const handlelogin = async (formData) => {
     setisloading(true);
     try {
-      let res = await fetch("http://localhost:3000/login/", {
+      let res = await fetch("https://essaypedia.onrender.com/login/", {
         method: "POST",
         credentials: 'include',
         headers: { "Content-Type": "application/json" },

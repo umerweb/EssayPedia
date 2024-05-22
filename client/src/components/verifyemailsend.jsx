@@ -17,7 +17,7 @@ function VerifyMail() {
           const userId = urlParts[urlParts.length - 1];
       
           // Use the userId to fetch data
-          const response = await fetch(`http://localhost:3000/register/verify/${userId}`, {
+          const response = await fetch(`https://essaypedia.onrender.com/register/verify/${userId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
